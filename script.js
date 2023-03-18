@@ -32,4 +32,15 @@ function operate(a, b, operator) {
     return result.toFixed(2);
 }
 
-console.log(operate(5, 6, '/'))
+function display() {
+    let btn = document.querySelectorAll('.operands');
+    console.log(btn)
+    btn.forEach( (item) => {
+        item.addEventListener('click', () => {
+            let value = item.value;            
+            document.getElementById('calc-display').value = value;
+        })
+    })
+}
+
+display();
