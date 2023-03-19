@@ -33,12 +33,27 @@ function operate(a, b, operator) {
 }
 
 function display() {
-    let btn = document.querySelectorAll('.operands');
+    let btn = document.querySelectorAll('input[type=button]');
+    let display = document.getElementById('calc-display')
     console.log(btn)
+    let expressionString = [];
+    let operators = ['+', '-', '*', '/']
+    let operand;
     btn.forEach( (item) => {
         item.addEventListener('click', () => {
-            let value = item.value;            
-            document.getElementById('calc-display').value = value;
+            let value = item.value;
+            if(operators.includes(value)) {
+                console.log('OK');
+                operand = expressionString.join('')
+                console.log(operand)
+                display.value = '';
+            } else if(value == '=') {
+                console.log('RESULT')
+            } else {
+                expressionString.push(value);
+                display.value = expressionString.join('');
+            }
+            console.log(expressionString);           
         })
     })
 }
