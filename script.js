@@ -26,16 +26,19 @@ function operate(a, b, operator) {
         result = substract(a, b);
     } else if (operator == '*') {
         result = multiply(a, b);
-    } else {
+    } else if (operator == '/') {
         result = divide(a, b);
     }
-    return result.toFixed(2);
+    // If result has decimal, round them
+    if (result % 1 != 0) {
+        return result.toFixed(2);
+    }
+    return result;
 }
 
 function display() {
     let btn = document.querySelectorAll('input[type=button]');
     let display = document.getElementById('calc-display')
-    console.log(btn)
     let expressionString = [];
     let operators = ['+', '-', '*', '/']
     let operand = '';
@@ -47,10 +50,13 @@ function display() {
                     expressionString.push(operand, value)
                     console.log(expressionString)
                     operand = ''
-                } else if(value == '=' || expressionString[2] != undefined) {
+                } else if(value == '=' || (operators.includes(value) && expressionString[2] != undefined)) {
                     expressionString.push(operand)
-                    console.log('RESULT')
+                    let result = operate(parseInt(expressionString[0]), parseInt(expressionString[2]), expressionString[1])
+                    console.log(result)
+                    display.value = result
                     console.log(expressionString)
+                    
                 } else {
                     operand += value;
                     display.value = operand;
