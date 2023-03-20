@@ -38,23 +38,25 @@ function display() {
     console.log(btn)
     let expressionString = [];
     let operators = ['+', '-', '*', '/']
-    let operand;
+    let operand = '';
     btn.forEach( (item) => {
         item.addEventListener('click', () => {
             let value = item.value;
-            if(operators.includes(value)) {
-                console.log('OK');
-                operand = expressionString.join('')
-                console.log(operand)
-                display.value = '';
-            } else if(value == '=') {
-                console.log('RESULT')
-            } else {
-                expressionString.push(value);
-                display.value = expressionString.join('');
+                if(operators.includes(value)) {
+                    console.log('OK');
+                    expressionString.push(operand, value)
+                    console.log(expressionString)
+                    operand = ''
+                } else if(value == '=' || expressionString[2] != undefined) {
+                    expressionString.push(operand)
+                    console.log('RESULT')
+                    console.log(expressionString)
+                } else {
+                    operand += value;
+                    display.value = operand;
+                }
             }
-            console.log(expressionString);           
-        })
+        )
     })
 }
 
