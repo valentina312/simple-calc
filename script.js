@@ -45,34 +45,43 @@ function display() {
     btn.forEach( (item) => {
         item.addEventListener('click', () => {
             let value = item.value;
-                if(operators.includes(value)) {
-                    expressionString.push(operand)
-                    operand = '';
-                    console.log(expressionString)
-                    if (expressionString.length == 1) {
-                        console.log('OK');
-                        expressionString.push(value);
-                        console.log(expressionString)
-                    } else if (expressionString.length == 3) {
-                        expressionString.push(operand)
-                        let result = operate(parseInt(expressionString[0]), parseInt(expressionString[2]), expressionString[1])
-                        console.log('RESULT')
-                        console.log(result)
-                        display.value = result
-                        expressionString.length = 0;
-                        expressionString[0] = result;
-                        if (value != '=') {
-                            console.log(value)
-                            expressionString[1] = value;
-                        }
-                        console.log(expressionString)
-                    }           
-                } else {
-                    operand += value;
-                    display.value = operand;
-                }
+            // If button is an operator save the operand and clear display
+            if(operators.includes(value)) {
+                expressionString.push(operand)
+                operand = '';
+                // If there's only 1 item in the expression, save the operator
+                if (expressionString.length == 1) {
+                    expressionString.push(value);
+                /* Else if expression has 3 element, calculate result and
+                save it as first element for the next expression */        
+                } else if (expressionString.length == 3) {
+                    let result = operate(parseInt(expressionString[0]), parseInt(expressionString[2]), expressionString[1])
+                    
+                    display.value = result
+                    expressionString.length = 0;
+                    operand = result;
+                    // Save operator if it's not '='
+                    if (value != '=') {
+                        expressionString[1] = value;
+                        expressionString[0] = result
+                        operand = '';        
+                    }
+                }           
+            // If button is AC clear memory and display
+            } else if (value == 'AC') {
+                expressionString.length = 0;
+                operand = '';
+                display.value = '';
+            // If button is CANC, delete last number 
+            } else if (value == 'CANC') {
+                operand = operand.toString().slice(0, -1)
+                display.value = operand
+            // If button is a number or '.', save it as string to display
+            } else if (item.className == 'operands') {
+                operand += value;
+                display.value = operand;
             }
-        )
+        })
     })
 }
 
