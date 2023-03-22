@@ -30,10 +30,11 @@ function operate(a, b, operator) {
         result = divide(a, b);
     }
     // If result has decimal, round them
-    if (result % 1 != 0) {
+    if (result > Math.floor(result)) {
         return result.toFixed(2);
+    } else {
+        return result;
     }
-    return result;
 }
 
 function display() {
@@ -55,7 +56,8 @@ function display() {
                 /* Else if expression has 3 element, calculate result and
                 save it as first element for the next expression */        
                 } else if (expressionString.length == 3) {
-                    let result = operate(parseInt(expressionString[0]), parseInt(expressionString[2]), expressionString[1])
+                    console.log(expressionString)
+                    let result = operate(+expressionString[0], +expressionString[2], expressionString[1])
                     
                     display.value = result
                     expressionString.length = 0;
@@ -66,6 +68,7 @@ function display() {
                         expressionString[0] = result
                         operand = '';        
                     }
+                    // TO DO: FIX ENABLE DECIMAL BUTTON AND DISPLAY AFTER =
                 }           
             // If button is AC clear memory and display
             } else if (value == 'AC') {
@@ -80,6 +83,9 @@ function display() {
             } else if (item.className == 'operands') {
                 operand += value;
                 display.value = operand;
+                if (value == '.') {
+                    item.disabled = true;
+                }
             }
         })
     })
