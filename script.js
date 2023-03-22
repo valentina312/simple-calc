@@ -47,6 +47,7 @@ function display() {
             let value = item.value;
                 if(operators.includes(value)) {
                     expressionString.push(operand)
+                    operand = '';
                     console.log(expressionString)
                     if (expressionString.length == 1) {
                         console.log('OK');
@@ -60,11 +61,12 @@ function display() {
                         display.value = result
                         expressionString.length = 0;
                         expressionString[0] = result;
-                        expressionString[1] = value;
+                        if (value != '=') {
+                            console.log(value)
+                            expressionString[1] = value;
+                        }
                         console.log(expressionString)
-
                     }           
-                    operand = '';
                 } else {
                     operand += value;
                     display.value = operand;
