@@ -40,23 +40,31 @@ function display() {
     let btn = document.querySelectorAll('input[type=button]');
     let display = document.getElementById('calc-display')
     let expressionString = [];
-    let operators = ['+', '-', '*', '/']
+    let operators = ['+', '-', '*', '/', '=']
     let operand = '';
     btn.forEach( (item) => {
         item.addEventListener('click', () => {
             let value = item.value;
                 if(operators.includes(value)) {
-                    console.log('OK');
-                    expressionString.push(operand, value)
-                    console.log(expressionString)
-                    operand = ''
-                } else if(value == '=' || (operators.includes(value) && expressionString[2] != undefined)) {
                     expressionString.push(operand)
-                    let result = operate(parseInt(expressionString[0]), parseInt(expressionString[2]), expressionString[1])
-                    console.log(result)
-                    display.value = result
                     console.log(expressionString)
-                    
+                    if (expressionString.length == 1) {
+                        console.log('OK');
+                        expressionString.push(value);
+                        console.log(expressionString)
+                    } else if (expressionString.length == 3) {
+                        expressionString.push(operand)
+                        let result = operate(parseInt(expressionString[0]), parseInt(expressionString[2]), expressionString[1])
+                        console.log('RESULT')
+                        console.log(result)
+                        display.value = result
+                        expressionString.length = 0;
+                        expressionString[0] = result;
+                        expressionString[1] = value;
+                        console.log(expressionString)
+
+                    }           
+                    operand = '';
                 } else {
                     operand += value;
                     display.value = operand;
