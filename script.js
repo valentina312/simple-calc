@@ -39,9 +39,9 @@ function operate(a, b, operator) {
 
 function display() {
     let btn = document.querySelectorAll('input[type=button]');
-    let display = document.getElementById('calc-display')
+    let display = document.getElementById('calc-display');
     var expressionString = [];
-    let operators = ['+', '-', '*', '/', '=']
+    let operators = ['+', '-', '*', '/', '='];
     var operand = '';
     var result; 
     btn.forEach( (item) => {
@@ -85,7 +85,7 @@ function display() {
 
             // If button is CANC, delete last number 
             } else if (value == 'CANC') {
-                operand = operand.toString().slice(0, -1)
+                operand = operand.toString().slice(0, -1);
                 display.value = operand;
 
             // If button is a number or '.', save it as string to display
@@ -105,7 +105,6 @@ function display() {
                     pointBtn.disabled = false;
                 }
                 display.value = operand;
-
             }
         })
     })
