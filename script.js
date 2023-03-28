@@ -40,59 +40,81 @@ function operate(a, b, operator) {
 function display() {
     let btn = document.querySelectorAll('input[type=button]');
     let display = document.getElementById('calc-display')
-    let expressionString = [];
+    var expressionString = [];
     let operators = ['+', '-', '*', '/', '=']
-    let operand = '';
-
+    var operand = '';
+    var result; 
     btn.forEach( (item) => {
         item.addEventListener('click', () => {
             let value = item.value;
-                
-         
+   
         // If button is an operator save the operand and clear display
-        if(operators.includes(value)) {
-            expressionString.push(operand)
-            operand = '';
-            // If there's only 1 item in the expression, save the operator
-            if (expressionString.length == 1) {
-                expressionString.push(value);
-            /* Else if expression has 3 element, calculate result and
-            save it as first element for the next expression */        
-            } else if (expressionString.length == 3) {
+            if(operators.includes(value)) {
+                expressionString.push(operand, value);
+
+                    
+                console.log('1')
                 console.log(expressionString)
-                let result = operate(+expressionString[0], +expressionString[2], expressionString[1])
                 
-                display.value = result
-                expressionString.length = 0;
-                operand = result;
-                // Save operator if it's not '='
-                if (value != '=') {
-                    expressionString[1] = value;
-                    expressionString[0] = result
-                    operand = '';        
+                
+                /* Else if expression has 3 element, calculate result and
+                save it as first element for the next expression */        
+                if (expressionString.length < 3) {
+                    display.value = operand;
+                    operand = '';
+                } else if (expressionString.length >= 3) {
+                    console.log('3')
+                    console.log(expressionString)
+                    result = operate(+expressionString[0], +expressionString[2], expressionString[1])
+                    expressionString.length = 0;
+                    expressionString[0] = result;
+                    display.value = result;
+                    if (value != '=') { 
+                        expressionString[1] = value;
+                        operand = '';
+                    } else {
+                        expressionString.length = 0;
+                        operand = result;
+                    }
+
+                    
                 }
-                // TO DO: FIX ENABLE DECIMAL BUTTON AND DISPLAY AFTER =
-            }           
-        // If button is AC clear memory and display
-        } else if (value == 'AC') {
-            expressionString.length = 0;
-            operand = '';
-            display.value = '';
-        // If button is CANC, delete last number 
-        } else if (value == 'CANC') {
-            operand = operand.toString().slice(0, -1)
-            display.value = operand
-        // If button is a number or '.', save it as string to display
-        } else if (item.className == 'operands') {
-            operand += value;
-            display.value = operand;
-            let pointBtn = document.getElementById('point');
-            if (display.value.includes('.')) {    
-                pointBtn.disabled = true;
-            } else {
-                pointBtn.disabled = false;
+
+                console.log('4')
+                console.log('operand' + ' ' + operand)
+                console.log(expressionString)
+                // display.value = operand
+
+
+            // If button is AC clear memory and display
+            } else if (value == 'AC') {
+                expressionString.length = 0;
+                operand = '';
+                display.value = '0';
+
+            // If button is CANC, delete last number 
+            } else if (value == 'CANC') {
+                operand = operand.toString().slice(0, -1)
+                display.value = operand;
+
+            // If button is a number or '.', save it as string to display
+            } else if (item.className == 'operands') {
+                if (result) {
+                    console.log ('YES')
+                    operand = '';
+                    result = undefined;
+                }
+                operand += value;
+
+                let pointBtn = document.getElementById('point');
+                if (display.value.includes('.')) {    
+                    pointBtn.disabled = true;
+                } else {
+                    pointBtn.disabled = false;
+                }
+                display.value = operand;
+
             }
-        }
         })
     })
 }
