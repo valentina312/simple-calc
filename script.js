@@ -48,45 +48,36 @@ function display() {
         item.addEventListener('click', () => {
             let value = item.value;
    
-        // If button is an operator save the operand and clear display
+        // If button is an operator save the operand and the operator
             if(operators.includes(value)) {
                 expressionString.push(operand, value);
-
-                    
-                console.log('1')
-                console.log(expressionString)
                 
-                
-                /* Else if expression has 3 element, calculate result and
-                save it as first element for the next expression */        
+                // If expression has only 1 operand, display it    
                 if (expressionString.length < 3) {
                     display.value = operand;
                     operand = '';
+                /* Else if expression has 2 operand, calculate result, clear expression
+                 and save result as first element for the next expression */  
                 } else if (expressionString.length >= 3) {
-                    console.log('3')
-                    console.log(expressionString)
+
                     result = operate(+expressionString[0], +expressionString[2], expressionString[1])
                     expressionString.length = 0;
                     expressionString[0] = result;
                     display.value = result;
+                    
+                    /* If operator is not '=' save it for next expression and
+                    clear operand */
                     if (value != '=') { 
                         expressionString[1] = value;
                         operand = '';
+                    // Else clear expression and save result as operand for display
                     } else {
                         expressionString.length = 0;
                         operand = result;
-                    }
-
-                    
+                    }                  
                 }
 
-                console.log('4')
-                console.log('operand' + ' ' + operand)
-                console.log(expressionString)
-                // display.value = operand
-
-
-            // If button is AC clear memory and display
+            // If button is AC clear memory and display 0
             } else if (value == 'AC') {
                 expressionString.length = 0;
                 operand = '';
@@ -99,13 +90,14 @@ function display() {
 
             // If button is a number or '.', save it as string to display
             } else if (item.className == 'operands') {
+                // If there is already a result, clear operand and result
                 if (result) {
-                    console.log ('YES')
                     operand = '';
                     result = undefined;
                 }
                 operand += value;
 
+                // Functionality for decimal button
                 let pointBtn = document.getElementById('point');
                 if (display.value.includes('.')) {    
                     pointBtn.disabled = true;
